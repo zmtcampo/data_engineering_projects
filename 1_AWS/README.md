@@ -1,5 +1,3 @@
-# Traffic Analysis Pipeline
-
 ## Project Overview
 
 The purpose of this project was to create a fully automated ETL pipeline using Airflow, AWS S3, and RDS, running monthly to generate the Top 10 TTI (Travel Time Index) and PTI (Planning Time Index) congested roads:
