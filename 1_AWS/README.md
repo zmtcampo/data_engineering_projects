@@ -10,24 +10,20 @@ The primary dataset used for this analysis is the National Performance Managemen
 
 ![link3_data_head](https://github.com/user-attachments/assets/1c8bcfc0-ee93-45cf-8836-b937906bf884)
 
-## Architecture Details
-## Data Sources
--NPMRDS traffic data in CSV (on S3)
-
-## ETL Pipeline (Monthly)
+### 1. ETL Pipeline (Monthly)
 -Extract: Pull monthly data from S3
 -Transform: Calculate TTI and PTI for each TMC
--Load: Save results to AWS RDS (PostgreSQL/MySQL) or Snowflake
+-Load: Save results to AWS RDS (PostgreSQL)
 -Report: Identify top 10 congested (TTI) & worst roads (PTI)
 
-### -- Airflow DAG Pipeline
+### 2. Airflow DAG Pipeline
 The pipeline uses S3Hook, Pandas, and SQLAlchemy to process the data:
 
-### --1. Install Dependencies
+### 3. Install Dependencies
 ```python
 pip install apache-airflow[aws] pandas numpy sqlalchemy psycopg2-binary
 ```
-### --2. Airflow DAG Script
+### 4. Airflow DAG Script
 ```python
 from airflow import DAG
 from airflow.decorators import task
@@ -55,7 +51,7 @@ with DAG(
     @task
     def extract_data(year: int, month: int):
         s3 = S3Hook(aws_conn_id='aws_default')
-        bucket = 'your-s3-bucket'
+        bucket = 'traffic'
         prefix = f'npmrds/{year}/{month:02d}/'
 
         tt_file = f'{prefix}HITTAV{year}_{month:02d}.csv'
